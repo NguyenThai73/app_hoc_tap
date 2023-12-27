@@ -1,7 +1,36 @@
-import 'package:flutter/material.dart';
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
-class ProfilePage extends StatelessWidget {
+import 'package:fe/constant/avatar.dart';
+import 'package:fe/constant/shared.preferences.dart';
+import 'package:fe/model/user.model.dart';
+import 'package:fe/modules/profile/change.password.dart';
+import 'package:fe/modules/splash/splash.page.dart';
+import 'package:fe/provider/nguoi.dung.provider.dart';
+import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
+
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+  UserModel user = UserModel();
+  getData() async {
+    var idSV = await MySP.getIdSV();
+    var userGet = await NguoiDungProvider.getUserById(id: idSV.toString());
+    setState(() {
+      user = userGet;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,9 +76,238 @@ class ProfilePage extends StatelessWidget {
             ),
           ),
           Expanded(
-              child: Container(
-            decoration: BoxDecoration(color: Colors.white),
-          ))
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              decoration: const BoxDecoration(color: Colors.white),
+              padding: const EdgeInsets.only(top: 15, bottom: 15),
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    SizedBox(height: 10),
+                    Avatar(height: 100),
+                    SizedBox(height: 10),
+                    Text(
+                      user.fullName ?? "",
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+                    ),
+                    Text(
+                      user.email ?? "",
+                      style:
+                          TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
+                    ),
+                    SizedBox(height: 10),
+                    Container(
+                      height: 50,
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(color: Color(0xFFededed)),
+                      padding: EdgeInsets.only(left: 20),
+                      child: Center(
+                          child: Row(
+                        children: [
+                          Text(
+                            "Cài đặt chung",
+                            style: TextStyle(fontSize: 18, color: Colors.grey),
+                          ),
+                        ],
+                      )),
+                    ),
+                    Container(
+                      height: 50,
+                      width: MediaQuery.of(context).size.width,
+                      padding: EdgeInsets.only(
+                          left: 20, right: 20, top: 10, bottom: 10),
+                      child: InkWell(
+                        onTap: () {},
+                        child: Center(
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Icon(Icons.manage_accounts, size: 40),
+                              SizedBox(width: 10),
+                              Container(
+                                padding: EdgeInsets.only(top: 7),
+                                child: Text(
+                                  "Chỉnh Sửa Thông Tin",
+                                  style: TextStyle(
+                                      fontSize: 18, color: Color(0xFF907E7E)),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      height: 50,
+                      width: MediaQuery.of(context).size.width,
+                      padding: EdgeInsets.only(
+                          left: 20, right: 20, top: 10, bottom: 10),
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.push<void>(
+                            context,
+                            MaterialPageRoute<void>(
+                              builder: (BuildContext context) =>
+                                  const ChangePasswordPage(),
+                            ),
+                          );
+                        },
+                        child: Center(
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Icon(Icons.key, size: 40),
+                              SizedBox(width: 10),
+                              Container(
+                                padding: EdgeInsets.only(top: 7),
+                                child: Text(
+                                  "Đổi Mật Khẩu",
+                                  style: TextStyle(
+                                      fontSize: 18, color: Color(0xFF907E7E)),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      height: 50,
+                      width: MediaQuery.of(context).size.width,
+                      padding: EdgeInsets.only(
+                          left: 20, right: 20, top: 10, bottom: 10),
+                      child: InkWell(
+                        onTap: () {},
+                        child: Center(
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Icon(Icons.info, size: 40),
+                              SizedBox(width: 10),
+                              Container(
+                                padding: EdgeInsets.only(top: 7),
+                                child: Text(
+                                  "Thông tin ứng dụng",
+                                  style: TextStyle(
+                                      fontSize: 18, color: Color(0xFF907E7E)),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      height: 50,
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(color: Color(0xFFededed)),
+                      padding: EdgeInsets.only(left: 20),
+                      child: Center(
+                          child: Row(
+                        children: [
+                          Text(
+                            "Thông Tin",
+                            style: TextStyle(fontSize: 18, color: Colors.grey),
+                          ),
+                        ],
+                      )),
+                    ),
+                    Container(
+                      height: 50,
+                      width: MediaQuery.of(context).size.width,
+                      padding: EdgeInsets.only(
+                          left: 20, right: 20, top: 10, bottom: 10),
+                      child: InkWell(
+                        onTap: () {},
+                        child: Center(
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Icon(Icons.description, size: 40),
+                              SizedBox(width: 10),
+                              Container(
+                                padding: EdgeInsets.only(top: 7),
+                                child: Text(
+                                  "Điều Khoản Và Điều Kiện",
+                                  style: TextStyle(
+                                      fontSize: 18, color: Color(0xFF907E7E)),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      height: 50,
+                      width: MediaQuery.of(context).size.width,
+                      padding: EdgeInsets.only(
+                          left: 20, right: 20, top: 10, bottom: 10),
+                      child: InkWell(
+                        onTap: () {},
+                        child: Center(
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Icon(Icons.share, size: 40),
+                              SizedBox(width: 10),
+                              Container(
+                                padding: EdgeInsets.only(top: 7),
+                                child: Text(
+                                  "Chia Sẻ Ứng Dụng",
+                                  style: TextStyle(
+                                      fontSize: 18, color: Color(0xFF907E7E)),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      height: 50,
+                      width: MediaQuery.of(context).size.width,
+                      padding: EdgeInsets.only(
+                          left: 20, right: 20, top: 10, bottom: 10),
+                      child: InkWell(
+                        onTap: () async {
+                          final SharedPreferences prefs =
+                              await SharedPreferences.getInstance();
+                          prefs.clear();
+                          // ignore: use_build_context_synchronously
+                          Navigator.push<void>(
+                            context,
+                            MaterialPageRoute<void>(
+                              builder: (BuildContext context) => SplashPage(),
+                            ),
+                          );
+                        },
+                        child: Center(
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Icon(Icons.logout, size: 40),
+                              SizedBox(width: 10),
+                              Container(
+                                padding: EdgeInsets.only(top: 7),
+                                child: Text(
+                                  "Đăng Xuất ",
+                                  style: TextStyle(
+                                      fontSize: 18, color: Color(0xFF907E7E)),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          )
         ],
       ),
     );

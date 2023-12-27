@@ -116,7 +116,7 @@ class CourseItem extends StatelessWidget {
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   image: DecorationImage(
-                      image: NetworkImage(element.employerPath ?? ""))),
+                      image: NetworkImage(element.employerPath ?? "",),fit: BoxFit.cover)),
             ),
             Expanded(
               child: Column(

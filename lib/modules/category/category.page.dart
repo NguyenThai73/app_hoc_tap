@@ -1,14 +1,43 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:fe/constant/toast.dart';
+import 'package:fe/model/category.model.dart';
 import 'package:fe/modules/academic_score/academic.score.page.dart';
+import 'package:fe/modules/category/add.category.page.dart';
+import 'package:fe/modules/category/list.category.dart';
 import 'package:fe/modules/discipline_grade/discipline.grade.page.dart';
 import 'package:fe/modules/timetable/timetable.page.dart';
+import 'package:fe/provider/category.provider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
-class CategoryPage extends StatelessWidget {
+class CategoryPage extends StatefulWidget {
   const CategoryPage({super.key});
+
+  @override
+  State<CategoryPage> createState() => _CategoryPageState();
+}
+
+class _CategoryPageState extends State<CategoryPage> {
+  List<CategoryModel> listChoXacNhan = [];
+  List<CategoryModel> listDaTiepNhan = [];
+  List<CategoryModel> listDaXuLy = [];
+  getData() async {
+    var listCXN = await CategoryProvider.getListForStatus(0);
+    var listDTN = await CategoryProvider.getListForStatus(1);
+    var listDXL = await CategoryProvider.getListForStatus(2);
+
+    setState(() {
+      listChoXacNhan = listCXN;
+      listDaTiepNhan = listDTN;
+      listDaXuLy = listDXL;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,139 +85,190 @@ class CategoryPage extends StatelessWidget {
               child: Row(
                 children: [
                   Expanded(
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          width: 50,
-                          height: 40,
-                          child: Stack(
-                            alignment: Alignment.topRight,
-                            children: [
-                              Container(
-                                margin: const EdgeInsets.only(right: 10),
-                                width: 50,
-                                height: 50,
-                                child: Image.asset(
-                                  "assets/tn.png",
-                                ),
-                              ),
-                              Container(
-                                width: 17,
-                                height: 17,
-                                decoration: BoxDecoration(
-                                    color: Colors.red,
-                                    borderRadius: BorderRadius.circular(10)),
-                                child: const Center(
-                                  child: FittedBox(
-                                      child: Text(
-                                    "2",
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 14),
-                                  )),
-                                ),
-                              )
-                            ],
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.push<void>(
+                          context,
+                          MaterialPageRoute<void>(
+                            builder: (BuildContext context) => ListCatogoryPage(
+                              listCategoryModel: listChoXacNhan,
+                              title: "Chờ Xác Nhận",
+                            ),
                           ),
-                        ),
-                        const Text(
-                          "Chờ Xác Nhận",
-                          style: TextStyle(
-                              color: Color(0xFF091E8E),
-                              fontSize: 15,
-                              fontWeight: FontWeight.w400),
-                        )
-                      ],
+                        );
+                      },
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            width: 50,
+                            height: 40,
+                            child: Stack(
+                              alignment: Alignment.topRight,
+                              children: [
+                                Container(
+                                  margin: const EdgeInsets.only(right: 10),
+                                  width: 50,
+                                  height: 50,
+                                  child: Image.asset(
+                                    "assets/tn.png",
+                                  ),
+                                ),
+                                listChoXacNhan.isNotEmpty
+                                    ? Container(
+                                        width: 17,
+                                        height: 17,
+                                        decoration: BoxDecoration(
+                                            color: Colors.red,
+                                            borderRadius:
+                                                BorderRadius.circular(10)),
+                                        child: Center(
+                                          child: FittedBox(
+                                              child: Text(
+                                            "${listChoXacNhan.length}",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 14),
+                                          )),
+                                        ),
+                                      )
+                                    : Container()
+                              ],
+                            ),
+                          ),
+                          const Text(
+                            "Chờ Xác Nhận",
+                            style: TextStyle(
+                                color: Color(0xFF091E8E),
+                                fontSize: 15,
+                                fontWeight: FontWeight.w400),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                   const SizedBox(width: 25),
                   Expanded(
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          width: 50,
-                          height: 40,
-                          child: Stack(
-                            alignment: Alignment.topRight,
-                            children: [
-                              Container(
-                                margin: const EdgeInsets.only(right: 10),
-                                width: 50,
-                                height: 50,
-                                child: Image.asset(
-                                  "assets/tnn.png",
-                                ),
-                              ),
-                              // Container(
-                              //   width: 17,
-                              //   height: 17,
-                              //   decoration: BoxDecoration(
-                              //       color: Colors.red,
-                              //       borderRadius: BorderRadius.circular(10)),
-                              //   child: const Center(
-                              //     child: FittedBox(
-                              //         child: Text(
-                              //       "2",
-                              //       style: TextStyle(
-                              //           color: Colors.white, fontSize: 14),
-                              //     )),
-                              //   ),
-                              // )
-                            ],
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.push<void>(
+                          context,
+                          MaterialPageRoute<void>(
+                            builder: (BuildContext context) => ListCatogoryPage(
+                              listCategoryModel: listDaTiepNhan,
+                              title: "Đã tiếp nhận",
+                            ),
                           ),
-                        ),
-                        const Text(
-                          "Đã tiếp nhận",
-                          style: TextStyle(
-                              color: Color(0xFF091E8E),
-                              fontSize: 15,
-                              fontWeight: FontWeight.w400),
-                        )
-                      ],
+                        );
+                      },
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            width: 50,
+                            height: 40,
+                            child: Stack(
+                              alignment: Alignment.topRight,
+                              children: [
+                                Container(
+                                  margin: const EdgeInsets.only(right: 10),
+                                  width: 50,
+                                  height: 50,
+                                  child: Image.asset(
+                                    "assets/tnn.png",
+                                  ),
+                                ),
+                                listDaTiepNhan.isNotEmpty
+                                    ? Container(
+                                        width: 17,
+                                        height: 17,
+                                        decoration: BoxDecoration(
+                                            color: Colors.red,
+                                            borderRadius:
+                                                BorderRadius.circular(10)),
+                                        child: Center(
+                                          child: FittedBox(
+                                              child: Text(
+                                            "${listDaTiepNhan.length}",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 14),
+                                          )),
+                                        ),
+                                      )
+                                    : Container()
+                              ],
+                            ),
+                          ),
+                          const Text(
+                            "Đã tiếp nhận",
+                            style: TextStyle(
+                                color: Color(0xFF091E8E),
+                                fontSize: 15,
+                                fontWeight: FontWeight.w400),
+                          )
+                        ],
+                      ),
                     ),
                   ),
                   Expanded(
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          width: 50,
-                          height: 40,
-                          child: Stack(
-                            alignment: Alignment.topRight,
-                            children: [
-                              Container(
-                                margin: const EdgeInsets.only(right: 10),
-                                width: 50,
-                                height: 50,
-                                child: Image.asset(
-                                  "assets/xn.png",
-                                ),
-                              ),
-                              Container(
-                                width: 17,
-                                height: 17,
-                                decoration: BoxDecoration(
-                                    color: Colors.red,
-                                    borderRadius: BorderRadius.circular(10)),
-                                child: const Center(
-                                  child: FittedBox(
-                                      child: Text(
-                                    "2",
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 14),
-                                  )),
-                                ),
-                              )
-                            ],
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.push<void>(
+                          context,
+                          MaterialPageRoute<void>(
+                            builder: (BuildContext context) => ListCatogoryPage(
+                              listCategoryModel: listDaXuLy,
+                              title: "Đã xử lý",
+                            ),
                           ),
-                        ),
-                        const Text(
-                          "Đã xử lý",
-                          style: TextStyle(
-                              color: Color(0xFF091E8E),
-                              fontSize: 15,
-                              fontWeight: FontWeight.w400),
-                        )
-                      ],
+                        );
+                      },
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            width: 50,
+                            height: 40,
+                            child: Stack(
+                              alignment: Alignment.topRight,
+                              children: [
+                                Container(
+                                  margin: const EdgeInsets.only(right: 10),
+                                  width: 50,
+                                  height: 50,
+                                  child: Image.asset(
+                                    "assets/xn.png",
+                                  ),
+                                ),
+                                listDaXuLy.isNotEmpty
+                                    ? Container(
+                                        width: 17,
+                                        height: 17,
+                                        decoration: BoxDecoration(
+                                            color: Colors.red,
+                                            borderRadius:
+                                                BorderRadius.circular(10)),
+                                        child: Center(
+                                          child: FittedBox(
+                                              child: Text(
+                                            "${listDaXuLy.length}",
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 14),
+                                          )),
+                                        ),
+                                      )
+                                    : Container()
+                              ],
+                            ),
+                          ),
+                          const Text(
+                            "Đã xử lý",
+                            style: TextStyle(
+                                color: Color(0xFF091E8E),
+                                fontSize: 15,
+                                fontWeight: FontWeight.w400),
+                          )
+                        ],
+                      ),
                     ),
                   )
                 ],
@@ -377,7 +457,22 @@ class CategoryPage extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             InkWell(
-                              onTap: () {},
+                              onTap: () async {
+                                var data = await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        const AddCategoryPage(
+                                      type: 1,
+                                    ),
+                                  ),
+                                );
+                                if (data != null) {
+                                  setState(() {
+                                    listChoXacNhan.add(data);
+                                  });
+                                }
+                              },
                               child: Column(
                                 children: [
                                   Container(
@@ -407,7 +502,22 @@ class CategoryPage extends StatelessWidget {
                               ),
                             ),
                             InkWell(
-                              onTap: () {},
+                              onTap: () async {
+                                var data = await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        const AddCategoryPage(
+                                      type: 2,
+                                    ),
+                                  ),
+                                );
+                                if (data != null) {
+                                  setState(() {
+                                    listChoXacNhan.add(data);
+                                  });
+                                }
+                              },
                               child: Column(
                                 children: [
                                   Container(
@@ -446,7 +556,22 @@ class CategoryPage extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             InkWell(
-                              onTap: () {},
+                              onTap: () async {
+                                var data = await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        const AddCategoryPage(
+                                      type: 3,
+                                    ),
+                                  ),
+                                );
+                                if (data != null) {
+                                  setState(() {
+                                    listChoXacNhan.add(data);
+                                  });
+                                }
+                              },
                               child: Column(
                                 children: [
                                   Container(
@@ -476,7 +601,22 @@ class CategoryPage extends StatelessWidget {
                               ),
                             ),
                             InkWell(
-                              onTap: () {},
+                              onTap: () async {
+                                var data = await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        const AddCategoryPage(
+                                      type: 4,
+                                    ),
+                                  ),
+                                );
+                                if (data != null) {
+                                  setState(() {
+                                    listChoXacNhan.add(data);
+                                  });
+                                }
+                              },
                               child: Column(
                                 children: [
                                   Container(
@@ -515,7 +655,22 @@ class CategoryPage extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
                             InkWell(
-                              onTap: () {},
+                              onTap: () async {
+                                var data = await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        const AddCategoryPage(
+                                      type: 5,
+                                    ),
+                                  ),
+                                );
+                                if (data != null) {
+                                  setState(() {
+                                    listChoXacNhan.add(data);
+                                  });
+                                }
+                              },
                               child: Column(
                                 children: [
                                   Container(
@@ -545,7 +700,22 @@ class CategoryPage extends StatelessWidget {
                               ),
                             ),
                             InkWell(
-                              onTap: () {},
+                              onTap: () async {
+                                var data = await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        const AddCategoryPage(
+                                      type: 6,
+                                    ),
+                                  ),
+                                );
+                                if (data != null) {
+                                  setState(() {
+                                    listChoXacNhan.add(data);
+                                  });
+                                }
+                              },
                               child: Column(
                                 children: [
                                   Container(

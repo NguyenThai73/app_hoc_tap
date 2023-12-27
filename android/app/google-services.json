@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "252077628750",
+    "project_id": "appsinhvien-924e4",
+    "storage_bucket": "appsinhvien-924e4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:252077628750:android:00ec39222e3e7a45f8121f",
+        "android_client_info": {
+          "package_name": "com.example.fe"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD2Kyfu5a-sSPjirnsnArGOcZurcqckuy0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

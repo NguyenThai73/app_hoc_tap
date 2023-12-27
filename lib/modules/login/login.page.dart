@@ -1,3 +1,4 @@
+import 'package:fe/ADMIN/navigator.page.dart';
 import 'package:fe/constant/loading.dart';
 import 'package:fe/constant/no.focus.scope.dart';
 import 'package:fe/constant/text.field.component.dart';
@@ -28,13 +29,23 @@ class LoginPage extends StatelessWidget {
                   }
                   if (state.status == Status.success) {
                     Navigator.pop(context);
-                    Navigator.push<void>(
-                      context,
-                      MaterialPageRoute<void>(
-                        builder: (BuildContext context) =>
-                            const NavigatorPage(),
-                      ),
-                    );
+                    if (state.role == 2) {
+                      Navigator.push<void>(
+                        context,
+                        MaterialPageRoute<void>(
+                          builder: (BuildContext context) =>
+                              const NavigatorPage(),
+                        ),
+                      );
+                    } else if (state.role == 0) {
+                      Navigator.push<void>(
+                        context,
+                        MaterialPageRoute<void>(
+                          builder: (BuildContext context) =>
+                              const NavigatorAdminPage(),
+                        ),
+                      );
+                    }
                   }
                   if (state.status == Status.error) {
                     Navigator.pop(context);

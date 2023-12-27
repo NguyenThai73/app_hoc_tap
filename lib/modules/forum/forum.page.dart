@@ -2,27 +2,37 @@
 
 import 'package:fe/constant/avatar.dart';
 import 'package:fe/constant/no.focus.scope.dart';
+import 'package:fe/modules/forum/document/document.page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'chat/chat.cubit.dart';
+import 'chat/chat.page.dart';
+import 'chat/list.chat.cubit.dart';
 
 class ForumPage extends StatefulWidget {
-  const ForumPage({super.key});
+  final int idSv;
+  const ForumPage({super.key, required this.idSv});
 
   @override
   State<ForumPage> createState() => _ForumPageState();
 }
 
 class _ForumPageState extends State<ForumPage> {
+  var tabIndex = 0;
   @override
   Widget build(BuildContext context) {
     return Container(
         width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
+        // height: MediaQuery.of(context).size.height,
         decoration: const BoxDecoration(
             image: DecorationImage(
                 image: AssetImage("assets/background_home.png"),
                 fit: BoxFit.fill)),
         child: NoFocusScope(
-          child: SingleChildScrollView(
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width,
+            // height: MediaQuery.of(context).size.height,
             child: Column(
               children: [
                 Container(
@@ -60,6 +70,62 @@ class _ForumPageState extends State<ForumPage> {
                     ),
                   ),
                 ),
+                SizedBox(height: 5),
+                Expanded(
+                    child: DefaultTabController(
+                        initialIndex: 0,
+                        length: 2,
+                        child: Builder(builder: (context) {
+                          return Column(
+                            children: [
+                              TabBar(
+                                onTap: (index) {
+                                  setState(() {
+                                    tabIndex = index;
+                                  });
+                                },
+                                controller: DefaultTabController.of(context),
+                                labelColor: Colors.black,
+                                labelStyle: TextStyle(
+                                    fontSize: 17, fontWeight: FontWeight.w500),
+                                dividerHeight: 0,
+                                indicatorColor: Color(0xFF014dae),
+                                tabs: [
+                                  Tab(
+                                      child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [Text('Trò chuyện')],
+                                  )),
+                                  Tab(
+                                      child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [Text('Tài liệu')],
+                                  )),
+                                ],
+                              ),
+                              Expanded(
+                                  child: Container(
+                                width: MediaQuery.of(context).size.width,
+                                decoration: const BoxDecoration(
+                                    color: Color(0xFFe7f5ff)),
+                                child: tabIndex == 0
+                                    ? MultiBlocProvider(
+                                        providers: [
+                                            BlocProvider(
+                                              create: (context) =>
+                                                  ListChatCubit(),
+                                            ),
+                                            BlocProvider(
+                                              create: (context) => ChatCubit(),
+                                            ),
+                                          ],
+                                        child:
+                                            ChatPage(idUser:widget.idSv))
+                                    : DocumentPage(),
+                              ))
+                            ],
+                          );
+                        })))
               ],
             ),
           ),

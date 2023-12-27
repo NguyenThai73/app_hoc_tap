@@ -2,20 +2,36 @@
 import 'dart:convert';
 
 class UserModel {
-  final int? id;
-  final int? role;
-  final String userName;
-  final String password;
-  final String fullName;
-  final String avatarPath;
-  final int? status;
+   int? id;
+   int? role;
+   String? userName;
+   String? password;
+   String? fullName;
+   String? avatar;
+   String? ngaySinh;
+   bool? gioiTinh;
+   String? email;
+   String? address;
+   String? sdt;
+   String? lopHoc;
+   String? heHoc;
+   String? nganhHoc;
+   int? status;
   UserModel({
     this.id,
     this.role,
-    required this.userName,
-    required this.password,
-    required this.fullName,
-    required this.avatarPath,
+    this.userName,
+    this.password,
+    this.fullName,
+    this.avatar,
+    this.ngaySinh,
+    this.gioiTinh,
+    this.email,
+    this.address,
+    this.sdt,
+    this.lopHoc,
+    this.heHoc,
+    this.nganhHoc,
     this.status,
   });
 
@@ -25,7 +41,15 @@ class UserModel {
     String? userName,
     String? password,
     String? fullName,
-    String? avatarPath,
+    String? avatar,
+    String? ngaySinh,
+    bool? gioiTinh,
+    String? email,
+    String? address,
+    String? sdt,
+    String? lopHoc,
+    String? heHoc,
+    String? nganhHoc,
     int? status,
   }) {
     return UserModel(
@@ -34,7 +58,15 @@ class UserModel {
       userName: userName ?? this.userName,
       password: password ?? this.password,
       fullName: fullName ?? this.fullName,
-      avatarPath: avatarPath ?? this.avatarPath,
+      avatar: avatar ?? this.avatar,
+      ngaySinh: ngaySinh ?? this.ngaySinh,
+      gioiTinh: gioiTinh ?? this.gioiTinh,
+      email: email ?? this.email,
+      address: address ?? this.address,
+      sdt: sdt ?? this.sdt,
+      lopHoc: lopHoc ?? this.lopHoc,
+      heHoc: heHoc ?? this.heHoc,
+      nganhHoc: nganhHoc ?? this.nganhHoc,
       status: status ?? this.status,
     );
   }
@@ -46,7 +78,15 @@ class UserModel {
       'userName': userName,
       'password': password,
       'fullName': fullName,
-      'avatarPath': avatarPath,
+      'avatar': avatar,
+      'ngaySinh': ngaySinh,
+      'gioiTinh': gioiTinh,
+      'email': email,
+      'address': address,
+      'sdt': sdt,
+      'lopHoc': lopHoc,
+      'heHoc': heHoc,
+      'nganhHoc': nganhHoc,
       'status': status,
     };
   }
@@ -55,10 +95,18 @@ class UserModel {
     return UserModel(
       id: map['id'] != null ? map['id'] as int : null,
       role: map['role'] != null ? map['role'] as int : null,
-      userName: map['userName'] as String,
-      password: map['password'] as String,
-      fullName: map['fullName'] as String,
-      avatarPath: map['avatarPath'] as String,
+      userName: map['userName'] != null ? map['userName'] as String : null,
+      password: map['password'] != null ? map['password'] as String : null,
+      fullName: map['fullName'] != null ? map['fullName'] as String : null,
+      avatar: map['avatar'] != null ? map['avatar'] as String : null,
+      ngaySinh: map['ngaySinh'] != null ? map['ngaySinh'] as String : null,
+      gioiTinh: map['gioiTinh'] != null ? map['gioiTinh'] as bool : null,
+      email: map['email'] != null ? map['email'] as String : null,
+      address: map['address'] != null ? map['address'] as String : null,
+      sdt: map['sdt'] != null ? map['sdt'] as String : null,
+      lopHoc: map['lopHoc'] != null ? map['lopHoc'] as String : null,
+      heHoc: map['heHoc'] != null ? map['heHoc'] as String : null,
+      nganhHoc: map['nganhHoc'] != null ? map['nganhHoc'] as String : null,
       status: map['status'] != null ? map['status'] as int : null,
     );
   }
@@ -69,7 +117,7 @@ class UserModel {
 
   @override
   String toString() {
-    return 'UserModel(id: $id, role: $role, userName: $userName, password: $password, fullName: $fullName, avatarPath: $avatarPath, status: $status)';
+    return 'UserModel(id: $id, role: $role, userName: $userName, password: $password, fullName: $fullName, avatar: $avatar, ngaySinh: $ngaySinh, gioiTinh: $gioiTinh, email: $email, address: $address, sdt: $sdt, lopHoc: $lopHoc, heHoc: $heHoc, nganhHoc: $nganhHoc, status: $status)';
   }
 
   @override
@@ -82,7 +130,15 @@ class UserModel {
       other.userName == userName &&
       other.password == password &&
       other.fullName == fullName &&
-      other.avatarPath == avatarPath &&
+      other.avatar == avatar &&
+      other.ngaySinh == ngaySinh &&
+      other.gioiTinh == gioiTinh &&
+      other.email == email &&
+      other.address == address &&
+      other.sdt == sdt &&
+      other.lopHoc == lopHoc &&
+      other.heHoc == heHoc &&
+      other.nganhHoc == nganhHoc &&
       other.status == status;
   }
 
@@ -93,7 +149,15 @@ class UserModel {
       userName.hashCode ^
       password.hashCode ^
       fullName.hashCode ^
-      avatarPath.hashCode ^
+      avatar.hashCode ^
+      ngaySinh.hashCode ^
+      gioiTinh.hashCode ^
+      email.hashCode ^
+      address.hashCode ^
+      sdt.hashCode ^
+      lopHoc.hashCode ^
+      heHoc.hashCode ^
+      nganhHoc.hashCode ^
       status.hashCode;
   }
 }

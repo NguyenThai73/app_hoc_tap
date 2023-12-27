@@ -45,6 +45,15 @@ dependencies:
   data_table_2: ^2.5.9
   pie_chart: ^5.4.0
   url_launcher: ^6.2.2
+  file_picker: ^6.1.1
+  shared_preferences: ^2.2.2
+  dropdown_button2: ^2.3.9
+  animation_list: ^2.2.1
+  firebase_core: ^2.24.2
+  cloud_firestore: ^4.13.6
+  photo_view: ^0.14.0
+  popover: ^0.2.9
+  flutter_launcher_icons: ^0.13.1
 
 dev_dependencies:
   flutter_test:
@@ -65,3 +74,9 @@ flutter:
   uses-material-design: true
   assets:
     - assets/
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/logo1.png"
+  min_sdk_android: 21

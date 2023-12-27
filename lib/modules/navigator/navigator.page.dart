@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:awesome_bottom_bar/awesome_bottom_bar.dart';
+import 'package:fe/constant/shared.preferences.dart';
 import 'package:fe/constant/will.pop.scope.dart';
 import 'package:fe/modules/course/course.page.dart';
 import 'package:fe/modules/forum/forum.page.dart';
@@ -16,6 +17,20 @@ class NavigatorPage extends StatefulWidget {
 }
 
 class _NavigatorPageState extends State<NavigatorPage> {
+  int idSv = 0;
+  getData() async {
+    var idSV = await MySP.getIdSV();
+    setState(() {
+      idSv = idSV;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
+
   int visit = 0;
   @override
   Widget build(BuildContext context) {
@@ -33,7 +48,7 @@ class _NavigatorPageState extends State<NavigatorPage> {
             : (visit == 1)
                 ? CoursePage()
                 : (visit == 2)
-                    ? ForumPage()
+                    ? ForumPage(idSv:idSv)
                     : ProfilePage(),
         bottomNavigationBar: SizedBox(
           height: 90,

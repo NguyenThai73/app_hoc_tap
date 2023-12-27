@@ -115,7 +115,9 @@ class _AcademicScorePageState extends State<AcademicScorePage> {
                       ))
                     ],
                   );
-                }))));
+                }))
+                )
+                );
   }
 }
 

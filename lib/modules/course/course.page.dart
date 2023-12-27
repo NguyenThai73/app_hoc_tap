@@ -25,7 +25,7 @@ class _CoursePageState extends State<CoursePage> {
       moTa: "FPT Software",
       employer: "FPT Software",
       employerPath:
-          "https://scontent.fhan5-11.fna.fbcdn.net/v/t39.30808-6/326420594_1274738173384030_7517311469436672342_n.png?_nc_cat=103&ccb=1-7&_nc_sid=efb6e6&_nc_eui2=AeEIGpKOwF4oHqoAepvHJ3Zd2Vc-GgJyYobZVz4aAnJihsdjK5XZBrpyj7TK9dqq6Rst69K4QK6NZP0gTIkGUuSN&_nc_ohc=b3H4YHHiPc4AX8R8MvG&_nc_ht=scontent.fhan5-11.fna&oh=00_AfBDVFYECWM9zSufneRLz_KZ9QVJxOcQMPAn3y6vrASVwg&oe=658BC314",
+          "https://firebasestorage.googleapis.com/v0/b/appsinhvien-924e4.appspot.com/o/logoc.jpeg?alt=media",
       url: "https://fptsoftware.com/",
       numberStart: 4.9,
       numberComment: 129,
