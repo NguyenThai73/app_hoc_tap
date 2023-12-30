@@ -1,21 +1,30 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, use_build_context_synchronously
 
+import 'package:email_otp/email_otp.dart';
 import 'package:fe/constant/loading.dart';
 import 'package:fe/constant/no.focus.scope.dart';
 import 'package:fe/constant/radio.select.dart';
 import 'package:fe/constant/text.field.component.dart';
 import 'package:fe/constant/date-pick-time.dart';
 import 'package:fe/constant/toast.dart';
-import 'package:fe/modules/navigator/navigator.page.dart';
+import 'package:fe/model/user.model.dart';
 import 'package:fe/provider/base.url.dart';
+import 'package:fe/provider/nguoi.dung.provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'register.cubit.dart';
 import 'register.cubit.state.dart';
+import 'verify.otp.screen.dart';
 
-class RegisterPage extends StatelessWidget {
+class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
 
+  @override
+  State<RegisterPage> createState() => _RegisterPageState();
+}
+
+class _RegisterPageState extends State<RegisterPage> {
+  EmailOTP myauth = EmailOTP();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,13 +67,6 @@ class RegisterPage extends StatelessWidget {
                   }
                   if (state.status == Status.success) {
                     Navigator.pop(context);
-                    Navigator.push<void>(
-                      context,
-                      MaterialPageRoute<void>(
-                        builder: (BuildContext context) =>
-                            const NavigatorPage(),
-                      ),
-                    );
                   }
                   if (state.status == Status.error) {
                     Navigator.pop(context);
@@ -87,11 +89,13 @@ class RegisterPage extends StatelessWidget {
                             width: 130,
                             height: 130,
                             child: ClipOval(
-                              child: (state.avatar != null &&
-                                      state.avatar != "")
-                                  ? Image.network(
-                                      "$baseUrl/api/files/${state.avatar ?? ""}", fit: BoxFit.cover,)
-                                  : Image.asset("assets/no_avatar.jpeg"),
+                              child:
+                                  (state.avatar != null && state.avatar != "")
+                                      ? Image.network(
+                                          "$baseUrl/api/files/${state.avatar ?? ""}",
+                                          fit: BoxFit.cover,
+                                        )
+                                      : Image.asset("assets/no_avatar.jpeg"),
                             ),
                           ),
                           IconButton(
@@ -212,7 +216,7 @@ class RegisterPage extends StatelessWidget {
                             hintText: "Hệ học",
                           ),
                           InkWell(
-                            onTap: () {
+                            onTap: () async {
                               if (context
                                       .read<RegisterCubit>()
                                       .email
@@ -258,7 +262,59 @@ class RegisterPage extends StatelessWidget {
                                   icon: const Icon(Icons.info),
                                 );
                               } else {
-                                context.read<RegisterCubit>().register();
+                                onLoading(context);
+                                UserModel userModel =
+                                    context.read<RegisterCubit>().converUser();
+
+                                var checkUser =
+                                    await NguoiDungProvider.getUserByEmail(
+                                        context
+                                            .read<RegisterCubit>()
+                                            .email
+                                            .text);
+                                if (checkUser == null) {
+                                  myauth.setConfig(
+                                      appEmail: "me@rohitchouhan.com",
+                                      appName: "StulnforPro Email OTP",
+                                      userEmail: context
+                                          .read<RegisterCubit>()
+                                          .email
+                                          .text,
+                                      otpLength: 6,
+                                      otpType: OTPType.digitsOnly);
+                                  if (await myauth.sendOTP() == true) {
+                                    Navigator.pop(context);
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(const SnackBar(
+                                      content: Text("OTP has been sent"),
+                                    ));
+                                    Navigator.push<void>(
+                                      context,
+                                      MaterialPageRoute<void>(
+                                        builder: (BuildContext context) =>
+                                            VerifyOtpScreen(
+                                          userModel: userModel,
+                                          myauth: myauth,
+                                        ),
+                                      ),
+                                    );
+                                  } else {
+                                    Navigator.pop(context);
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(const SnackBar(
+                                      content: Text("Oops, OTP send failed"),
+                                    ));
+                                  }
+                                } else {
+                                  Navigator.pop(context);
+                                  showToast(
+                                    context: context,
+                                    msg: "Email đã tồn tại",
+                                    color:
+                                        const Color.fromARGB(255, 255, 179, 86),
+                                    icon: const Icon(Icons.info),
+                                  );
+                                }
                               }
                             },
                             child: Container(

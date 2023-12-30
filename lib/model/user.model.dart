@@ -2,26 +2,28 @@
 import 'dart:convert';
 
 class UserModel {
-   int? id;
-   int? role;
-   String? userName;
-   String? password;
-   String? fullName;
-   String? avatar;
-   String? ngaySinh;
-   bool? gioiTinh;
-   String? email;
-   String? address;
-   String? sdt;
-   String? lopHoc;
-   String? heHoc;
-   String? nganhHoc;
-   int? status;
+  int? id;
+  int? role;
+  String? userName;
+  String? password;
+  String? createdDate;
+  String? fullName;
+  String? avatar;
+  String? ngaySinh;
+  bool? gioiTinh;
+  String? email;
+  String? address;
+  String? sdt;
+  String? lopHoc;
+  String? heHoc;
+  String? nganhHoc;
+  int? status;
   UserModel({
     this.id,
     this.role,
     this.userName,
     this.password,
+    this.createdDate,
     this.fullName,
     this.avatar,
     this.ngaySinh,
@@ -40,6 +42,7 @@ class UserModel {
     int? role,
     String? userName,
     String? password,
+    String? createdDate,
     String? fullName,
     String? avatar,
     String? ngaySinh,
@@ -57,6 +60,7 @@ class UserModel {
       role: role ?? this.role,
       userName: userName ?? this.userName,
       password: password ?? this.password,
+      createdDate: createdDate ?? this.createdDate,
       fullName: fullName ?? this.fullName,
       avatar: avatar ?? this.avatar,
       ngaySinh: ngaySinh ?? this.ngaySinh,
@@ -97,6 +101,8 @@ class UserModel {
       role: map['role'] != null ? map['role'] as int : null,
       userName: map['userName'] != null ? map['userName'] as String : null,
       password: map['password'] != null ? map['password'] as String : null,
+      createdDate:
+          map['createdDate'] != null ? map['createdDate'] as String : null,
       fullName: map['fullName'] != null ? map['fullName'] as String : null,
       avatar: map['avatar'] != null ? map['avatar'] as String : null,
       ngaySinh: map['ngaySinh'] != null ? map['ngaySinh'] as String : null,
@@ -113,51 +119,53 @@ class UserModel {
 
   String toJson() => json.encode(toMap());
 
-  factory UserModel.fromJson(String source) => UserModel.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory UserModel.fromJson(String source) =>
+      UserModel.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {
-    return 'UserModel(id: $id, role: $role, userName: $userName, password: $password, fullName: $fullName, avatar: $avatar, ngaySinh: $ngaySinh, gioiTinh: $gioiTinh, email: $email, address: $address, sdt: $sdt, lopHoc: $lopHoc, heHoc: $heHoc, nganhHoc: $nganhHoc, status: $status)';
+    return 'UserModel(id: $id, role: $role, userName: $userName, password: $password, createdDate: $createdDate, fullName: $fullName, avatar: $avatar, ngaySinh: $ngaySinh, gioiTinh: $gioiTinh, email: $email, address: $address, sdt: $sdt, lopHoc: $lopHoc, heHoc: $heHoc, nganhHoc: $nganhHoc, status: $status)';
   }
 
   @override
   bool operator ==(covariant UserModel other) {
     if (identical(this, other)) return true;
-  
-    return 
-      other.id == id &&
-      other.role == role &&
-      other.userName == userName &&
-      other.password == password &&
-      other.fullName == fullName &&
-      other.avatar == avatar &&
-      other.ngaySinh == ngaySinh &&
-      other.gioiTinh == gioiTinh &&
-      other.email == email &&
-      other.address == address &&
-      other.sdt == sdt &&
-      other.lopHoc == lopHoc &&
-      other.heHoc == heHoc &&
-      other.nganhHoc == nganhHoc &&
-      other.status == status;
+
+    return other.id == id &&
+        other.role == role &&
+        other.userName == userName &&
+        other.password == password &&
+        other.createdDate == createdDate &&
+        other.fullName == fullName &&
+        other.avatar == avatar &&
+        other.ngaySinh == ngaySinh &&
+        other.gioiTinh == gioiTinh &&
+        other.email == email &&
+        other.address == address &&
+        other.sdt == sdt &&
+        other.lopHoc == lopHoc &&
+        other.heHoc == heHoc &&
+        other.nganhHoc == nganhHoc &&
+        other.status == status;
   }
 
   @override
   int get hashCode {
     return id.hashCode ^
-      role.hashCode ^
-      userName.hashCode ^
-      password.hashCode ^
-      fullName.hashCode ^
-      avatar.hashCode ^
-      ngaySinh.hashCode ^
-      gioiTinh.hashCode ^
-      email.hashCode ^
-      address.hashCode ^
-      sdt.hashCode ^
-      lopHoc.hashCode ^
-      heHoc.hashCode ^
-      nganhHoc.hashCode ^
-      status.hashCode;
+        role.hashCode ^
+        userName.hashCode ^
+        password.hashCode ^
+        createdDate.hashCode ^
+        fullName.hashCode ^
+        avatar.hashCode ^
+        ngaySinh.hashCode ^
+        gioiTinh.hashCode ^
+        email.hashCode ^
+        address.hashCode ^
+        sdt.hashCode ^
+        lopHoc.hashCode ^
+        heHoc.hashCode ^
+        nganhHoc.hashCode ^
+        status.hashCode;
   }
 }

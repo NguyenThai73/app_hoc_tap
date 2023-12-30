@@ -19,6 +19,24 @@ class RegisterCubit extends Cubit<RegisterCubitState> {
 
   RegisterCubit() : super(const RegisterCubitState());
 
+  UserModel converUser() {
+    return UserModel(
+      role: 2,
+      userName: email.text,
+      fullName: name.text,
+      avatar: state.avatar ?? "",
+      ngaySinh: convertTimeStamp(ngaySinh!, "00:00:00"),
+      gioiTinh: state.gioiTinh,
+      email: email.text,
+      address: address.text,
+      sdt: sdt.text,
+      lopHoc: lopHoc.text,
+      heHoc: heHoc.text,
+      nganhHoc: nganhHoc.text,
+      status: 1,
+    );
+  }
+
   void register() async {
     emit(state.copyWith(status: Status.loading));
     UserModel userModel = UserModel(

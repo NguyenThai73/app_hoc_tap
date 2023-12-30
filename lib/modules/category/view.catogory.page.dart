@@ -4,6 +4,7 @@ import 'package:fe/constant/map.data.dart';
 import 'package:fe/constant/no.focus.scope.dart';
 import 'package:fe/constant/textfiel.dart';
 import 'package:fe/model/category.model.dart';
+import 'package:fe/provider/base.url.dart';
 import 'package:flutter/material.dart';
 
 class ViewCategoryPage extends StatefulWidget {
@@ -75,12 +76,72 @@ class _ViewCategoryPageState extends State<ViewCategoryPage> {
                   enabled: false,
                 ),
                 const SizedBox(height: 25),
+                const Text(
+                  "File đính kèm",
+                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
+                ),
+                Container(
+                  height: 50,
+                  decoration: BoxDecoration(
+                    border: Border.all(width: 2, color: Colors.grey),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  padding: const EdgeInsets.only(left: 10, right: 10),
+                  child: Center(
+                      child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(widget.categoryModel.attachment ?? ""),
+                      InkWell(
+                          onTap: () async {
+                            await downloadFile(
+                                context, widget.categoryModel.attachment ?? "");
+                          },
+                          child: const Icon(
+                            Icons.download,
+                            color: Colors.blue,
+                            size: 30,
+                          ))
+                    ],
+                  )),
+                ),
+                const SizedBox(height: 25),
                 TextFielWidget(
                   title: 'Lý do ',
                   controller: TextEditingController(
                       text: widget.categoryModel.lyDo ?? ""),
                   enabled: false,
                   minLines: 5,
+                ),
+                const SizedBox(height: 25),
+                const Text(
+                  "File đính kèm phản hồi",
+                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
+                ),
+                Container(
+                  height: 50,
+                  decoration: BoxDecoration(
+                    border: Border.all(width: 2, color: Colors.grey),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  padding: const EdgeInsets.only(left: 10, right: 10),
+                  child: Center(
+                      child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(widget.categoryModel.attachmenAdmin ?? ""),
+                      InkWell(
+                          onTap: () async {
+                            await downloadFile(context,
+                                widget.categoryModel.attachmenAdmin ?? "");
+                          },
+                          child: const Icon(
+                            Icons.download,
+                            color: Colors.blue,
+                            size: 30,
+                          ))
+                    ],
+                  )),
                 ),
                 const SizedBox(height: 25),
                 TextFielWidget(

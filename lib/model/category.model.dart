@@ -12,6 +12,8 @@ class CategoryModel {
   String? namHoc;
   int? hocKy;
   String? lyDo;
+  String? attachment;
+  String? attachmenAdmin;
   String? phanHoi;
   int? status;
   CategoryModel({
@@ -23,6 +25,8 @@ class CategoryModel {
     this.namHoc,
     this.hocKy,
     this.lyDo,
+    this.attachment,
+    this.attachmenAdmin,
     this.phanHoi,
     this.status,
   });
@@ -36,6 +40,8 @@ class CategoryModel {
     String? namHoc,
     int? hocKy,
     String? lyDo,
+    String? attachment,
+    String? attachmenAdmin,
     String? phanHoi,
     int? status,
   }) {
@@ -48,6 +54,8 @@ class CategoryModel {
       namHoc: namHoc ?? this.namHoc,
       hocKy: hocKy ?? this.hocKy,
       lyDo: lyDo ?? this.lyDo,
+      attachment: attachment ?? this.attachment,
+      attachmenAdmin: attachmenAdmin ?? this.attachmenAdmin,
       phanHoi: phanHoi ?? this.phanHoi,
       status: status ?? this.status,
     );
@@ -62,6 +70,8 @@ class CategoryModel {
       'namHoc': namHoc,
       'hocKy': hocKy,
       'lyDo': lyDo,
+      'attachment': attachment,
+      'attachmenAdmin': attachmenAdmin,
       'phanHoi': phanHoi,
       'status': status,
     };
@@ -77,6 +87,8 @@ class CategoryModel {
       namHoc: map['namHoc'] != null ? map['namHoc'] as String : null,
       hocKy: map['hocKy'] != null ? map['hocKy'] as int : null,
       lyDo: map['lyDo'] != null ? map['lyDo'] as String : null,
+      attachment: map['attachment'] != null ? map['attachment'] as String : null,
+      attachmenAdmin: map['attachmenAdmin'] != null ? map['attachmenAdmin'] as String : null,
       phanHoi: map['phanHoi'] != null ? map['phanHoi'] as String : null,
       status: map['status'] != null ? map['status'] as int : null,
     );
@@ -88,7 +100,7 @@ class CategoryModel {
 
   @override
   String toString() {
-    return 'CategoryModel(id: $id, idSv: $idSv, nguoiDung: $nguoiDung, createdDate: $createdDate, type: $type, namHoc: $namHoc, hocKy: $hocKy, lyDo: $lyDo, phanHoi: $phanHoi, status: $status)';
+    return 'CategoryModel(id: $id, idSv: $idSv, nguoiDung: $nguoiDung, createdDate: $createdDate, type: $type, namHoc: $namHoc, hocKy: $hocKy, lyDo: $lyDo, attachment: $attachment, attachmenAdmin: $attachmenAdmin, phanHoi: $phanHoi, status: $status)';
   }
 
   @override
@@ -104,6 +116,8 @@ class CategoryModel {
       other.namHoc == namHoc &&
       other.hocKy == hocKy &&
       other.lyDo == lyDo &&
+      other.attachment == attachment &&
+      other.attachmenAdmin == attachmenAdmin &&
       other.phanHoi == phanHoi &&
       other.status == status;
   }
@@ -118,6 +132,8 @@ class CategoryModel {
       namHoc.hashCode ^
       hocKy.hashCode ^
       lyDo.hashCode ^
+      attachment.hashCode ^
+      attachmenAdmin.hashCode ^
       phanHoi.hashCode ^
       status.hashCode;
   }

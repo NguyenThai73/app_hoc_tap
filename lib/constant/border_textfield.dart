@@ -12,7 +12,20 @@ class BorderTextField extends StatefulWidget {
   final bool? isPassword;
   final Function onChangeText;
   final TextInputType? typeKey;
-  const BorderTextField({required this.controller, super.key, this.maxlenght,required this.title, required this.placeholder, this.minLine, this.maxLines, this.isPassword, required this.onChangeText, this.typeKey});
+  final bool? enabled;
+  const BorderTextField({
+    required this.controller,
+    super.key,
+    this.maxlenght,
+    required this.title,
+    required this.placeholder,
+    this.minLine,
+    this.maxLines,
+    this.isPassword,
+    required this.onChangeText,
+    this.typeKey,
+    this.enabled,
+  });
 
   @override
   State<BorderTextField> createState() => _BorderTextFieldState();
@@ -55,6 +68,7 @@ class _BorderTextFieldState extends State<BorderTextField> {
             maxLines: widget.maxLines ?? 1,
             minLines: widget.minLine ?? 1,
             maxLength: widget.maxlenght,
+            enabled: widget.enabled,
             decoration: InputDecoration(
               hintText: widget.placeholder,
               hintStyle: TextStyle(
@@ -64,7 +78,8 @@ class _BorderTextFieldState extends State<BorderTextField> {
                 fontWeight: FontWeight.w500,
               ),
               border: InputBorder.none,
-              contentPadding: const EdgeInsets.only(bottom: 5, left: 10, right: 10, top: 10),
+              contentPadding: const EdgeInsets.only(
+                  bottom: 5, left: 10, right: 10, top: 10),
               suffixIcon: (widget.isPassword == true)
                   ? IconButton(
                       icon: Icon(

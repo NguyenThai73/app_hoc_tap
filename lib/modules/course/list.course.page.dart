@@ -1,4 +1,6 @@
 import 'package:fe/model/course.model.dart';
+import 'package:fe/provider/base.url.dart';
+import 'package:fe/provider/course.provider.dart';
 import 'package:flutter/material.dart';
 
 import 'detail.course.page.dart';
@@ -13,31 +15,29 @@ class ListCoursePage extends StatefulWidget {
 }
 
 class _ListCoursePageState extends State<ListCoursePage> {
-  
-  List<CourseModel> listCourseModelHot = [
-    CourseModel(
-      id: 1,
-      title: "Khóa Developer Foundation",
-      moTa: "FPT Software",
-      employer: "FPT Software",
-      employerPath:
-          "https://scontent.fhan5-11.fna.fbcdn.net/v/t39.30808-6/326420594_1274738173384030_7517311469436672342_n.png?_nc_cat=103&ccb=1-7&_nc_sid=efb6e6&_nc_eui2=AeEIGpKOwF4oHqoAepvHJ3Zd2Vc-GgJyYobZVz4aAnJihsdjK5XZBrpyj7TK9dqq6Rst69K4QK6NZP0gTIkGUuSN&_nc_ohc=b3H4YHHiPc4AX8R8MvG&_nc_ht=scontent.fhan5-11.fna&oh=00_AfBDVFYECWM9zSufneRLz_KZ9QVJxOcQMPAn3y6vrASVwg&oe=658BC314",
-      url: "https://fptsoftware.com/",
-      numberStart: 4.9,
-      numberComment: 129,
-    ),
-    CourseModel(
-      id: 2,
-      title: "Khóa Business Analyst",
-      moTa: "BAC Group ",
-      employer: "BAC Group ",
-      employerPath:
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROBZgtMGBhQyNk-DcMtmQYu7dlV0ZPfd9IsTJOzvyZXHD4QskrKLEmotehEBGN7kLI8Ig&usqp=CAU",
-      url: "https://fptsoftware.com/",
-      numberStart: 4.5,
-      numberComment: 89,
-    ),
-  ];
+  List<CourseModel> listCourseModelHot = [];
+
+  getData() async {
+    if (widget.type == null) {
+      var listDataNew = await CourseProvider.getListFostudent();
+      setState(() {
+        listCourseModelHot = listDataNew;
+      });
+    } else {
+      var listDataNew =
+          await CourseProvider.getListFostudentFotype(type: widget.type ?? 0);
+      setState(() {
+        listCourseModelHot = listDataNew;
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -116,7 +116,12 @@ class CourseItem extends StatelessWidget {
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
                   image: DecorationImage(
-                      image: NetworkImage(element.employerPath ?? "",),fit: BoxFit.cover)),
+                      image: NetworkImage(
+                        (element.nguoiDung?.avatar != null)
+                            ? "$baseUrl/api/files/${element.nguoiDung?.avatar}"
+                            : "https://firebasestorage.googleapis.com/v0/b/appsinhvien-924e4.appspot.com/o/logoc.jpeg?alt=media",
+                      ),
+                      fit: BoxFit.cover)),
             ),
             Expanded(
               child: Column(
@@ -128,7 +133,7 @@ class CourseItem extends StatelessWidget {
                     style: TextStyle(fontSize: 17, fontWeight: FontWeight.w900),
                   ),
                   Text(
-                    element.employer ?? "",
+                    element.nguoiDung?.fullName ?? "Doanh nghiệp ẩn danh",
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                         fontSize: 15,
@@ -142,7 +147,7 @@ class CourseItem extends StatelessWidget {
                         color: Color.fromARGB(255, 255, 222, 89),
                       ),
                       Text(
-                        " ${element.numberStart} (${element.numberComment} Reviews)",
+                        " ${element.numberStart ?? 0} (${element.numberComment ?? 0} Reviews)",
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
                             fontSize: 15,

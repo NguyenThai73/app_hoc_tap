@@ -2,10 +2,8 @@ import 'package:fe/constant/will.pop.scope.dart';
 import 'package:fe/modules/login/login.cubit.dart';
 import 'package:fe/modules/login/login.page.dart';
 import 'package:fe/modules/navigator/navigator.page.dart';
-import 'package:fe/provider/nguoi.dung.provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
@@ -137,7 +135,7 @@ class _SplashPageState extends State<SplashPage> {
                             ),
                             child: const Center(
                               child: Text(
-                                "Đăng nhập",
+                                "Bắt đầu",
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.w600,

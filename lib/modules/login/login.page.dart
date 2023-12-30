@@ -1,8 +1,10 @@
-import 'package:fe/ADMIN/navigator.page.dart';
+import 'package:fe/ADMIN/navigator.admin.page.dart';
+import 'package:fe/ADOANHNGHIEP/navigator.emloyer.page.dart';
 import 'package:fe/constant/loading.dart';
 import 'package:fe/constant/no.focus.scope.dart';
 import 'package:fe/constant/text.field.component.dart';
 import 'package:fe/constant/toast.dart';
+import 'package:fe/modules/forgotpass/forgot.pass.page.dart';
 import 'package:fe/modules/navigator/navigator.page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -43,6 +45,14 @@ class LoginPage extends StatelessWidget {
                         MaterialPageRoute<void>(
                           builder: (BuildContext context) =>
                               const NavigatorAdminPage(),
+                        ),
+                      );
+                    } else {
+                      Navigator.push<void>(
+                        context,
+                        MaterialPageRoute<void>(
+                          builder: (BuildContext context) =>
+                              const NavigatorEmployerPage(),
                         ),
                       );
                     }
@@ -108,7 +118,13 @@ class LoginPage extends StatelessWidget {
                             alignment: Alignment.centerRight,
                             child: InkWell(
                               onTap: () {
-                                print("object");
+                                Navigator.push<void>(
+                                  context,
+                                  MaterialPageRoute<void>(
+                                    builder: (BuildContext context) =>
+                                        const ForgotPasswordPage(),
+                                  ),
+                                );
                               },
                               child: const Text(
                                 "Quên mật khẩu",

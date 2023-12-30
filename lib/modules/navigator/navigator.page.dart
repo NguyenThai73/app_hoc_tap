@@ -36,7 +36,7 @@ class _NavigatorPageState extends State<NavigatorPage> {
   Widget build(BuildContext context) {
     return WillPS(
       child: Scaffold(
-        resizeToAvoidBottomInset: false,
+        // resizeToAvoidBottomInset: false,
         body: (visit == 0)
             ? HomePage(
                 callBack: (valueNew) {

@@ -1,9 +1,14 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:fe/ADMIN/course/comment.dialog.dart';
 import 'package:fe/model/course.model.dart';
+import 'package:fe/provider/base.url.dart';
+import 'package:fe/provider/course.comment.provider.dart';
+import 'package:fe/provider/course.provider.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:intl/intl.dart';
 
 class DetailCourse extends StatefulWidget {
   final CourseModel courseModel;
@@ -14,6 +19,20 @@ class DetailCourse extends StatefulWidget {
 }
 
 class _DetailCourseState extends State<DetailCourse> {
+  void changeDataAddView() async {
+    setState(() {
+      int viewNNow = widget.courseModel.views ?? 0;
+      widget.courseModel.views = viewNNow + 1;
+    });
+    await CourseProvider.put(widget.courseModel);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    changeDataAddView();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,6 +72,15 @@ class _DetailCourseState extends State<DetailCourse> {
         child: SingleChildScrollView(
           child: Column(
             children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                      "Ngày đăng: ${DateFormat('dd-MM-yyyy').format(DateTime.parse(widget.courseModel.createdDate ?? "").toLocal())}"),
+                  Text("${widget.courseModel.views ?? 0} lượt xem")
+                ],
+              ),
+              SizedBox(height: 10),
               Text(
                 widget.courseModel.title ?? "",
                 style:
@@ -63,7 +91,15 @@ class _DetailCourseState extends State<DetailCourse> {
                 width: 150,
                 height: 150,
                 child: CachedNetworkImage(
-                    imageUrl: widget.courseModel.employerPath ?? ""),
+                  imageUrl: "$baseUrl/api/files/${widget.courseModel.nguoiDung?.avatar}",
+                  errorWidget: (context, url, error) {
+                    return Image.asset(
+                      "assets/logoc.jpeg",
+                      fit: BoxFit.cover,
+                    );
+                  },
+                  fit: BoxFit.cover,
+                ),
               ),
               const SizedBox(height: 10),
               const Row(
@@ -95,7 +131,19 @@ class _DetailCourseState extends State<DetailCourse> {
                   ),
                   SizedBox(width: 30),
                   InkWell(
-                    onTap: () {},
+                    onTap: () async {
+                      var response = await showDialog(
+                          context: context,
+                          builder: (context) =>
+                              CommentDialog(courseModel: widget.courseModel));
+                      if (response != null && response) {
+                        var listNew = await CourseCommentProvider.getList(
+                            idCourse: widget.courseModel.id ?? 0);
+                        setState(() {
+                          widget.courseModel.listComments = listNew;
+                        });
+                      }
+                    },
                     child: Row(
                       children: const [
                         Icon(
@@ -123,7 +171,104 @@ class _DetailCourseState extends State<DetailCourse> {
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(10)),
-                child: Text("Chưa có nhận xết nào"),
+                child: Column(
+                  children: [
+                    for (var element in widget.courseModel.listComments)
+                      Container(
+                        margin: EdgeInsets.only(top: 10, bottom: 15),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              width: 70,
+                              height: 70,
+                              child: ClipOval(
+                                child: CachedNetworkImage(
+                                  imageUrl:
+                                      "$baseUrl/api/files/${element.nguoiDung?.avatar}",
+                                  errorWidget: (context, url, error) {
+                                    return Image.asset(
+                                      "assets/logoc.jpeg",
+                                      fit: BoxFit.cover,
+                                    );
+                                  },
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                            SizedBox(width: 15),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    element.nguoiDung?.fullName ?? "",
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600),
+                                  ),
+                                  SizedBox(height: 5),
+                                  Text(element.comment ?? ""),
+                                  SizedBox(height: 5),
+                                  Row(
+                                    children: [
+                                      Icon(
+                                        Icons.star,
+                                        color: (int.parse(element.star!) > 0)
+                                            ? Colors.yellow
+                                            : Colors.grey,
+                                      ),
+                                      SizedBox(width: 10),
+                                      Icon(
+                                        Icons.star,
+                                        color: (int.parse(element.star!) > 1)
+                                            ? Colors.yellow
+                                            : Colors.grey,
+                                      ),
+                                      SizedBox(width: 10),
+                                      Icon(
+                                        Icons.star,
+                                        color: (int.parse(element.star!) > 2)
+                                            ? Colors.yellow
+                                            : Colors.grey,
+                                      ),
+                                      SizedBox(width: 10),
+                                      Icon(
+                                        Icons.star,
+                                        color: (int.parse(element.star!) > 3)
+                                            ? Colors.yellow
+                                            : Colors.grey,
+                                      ),
+                                      SizedBox(width: 10),
+                                      Icon(
+                                        Icons.star,
+                                        color: (int.parse(element.star!) > 4)
+                                            ? Colors.yellow
+                                            : Colors.grey,
+                                      ),
+                                      SizedBox(width: 10),
+                                      Expanded(
+                                        child: FittedBox(
+                                          child: Text(
+                                            DateFormat('HH:mm dd/MM/yyyy')
+                                                .format(DateTime.parse(
+                                                        element.createdDate ??
+                                                            "")
+                                                    .toLocal()),
+                                            style: TextStyle(fontSize: 14),
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  )
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      )
+                  ],
+                ),
               ),
             ],
           ),
@@ -167,7 +312,7 @@ class _DetailCourseState extends State<DetailCourse> {
                   color: const Color(0xFFffcd2b)),
               child: InkWell(
                 onTap: () async {
-                  Uri urlconvert = Uri.parse(widget.courseModel.url ?? "");
+                  Uri urlconvert = Uri.parse(widget.courseModel.urlKhaiGiang ?? "");
                   if (!await launchUrl(urlconvert)) {
                     throw Exception('Could not launch ');
                   }

@@ -6,6 +6,7 @@ import 'package:fe/constant/shared.preferences.dart';
 import 'package:fe/constant/textfiel.dart';
 import 'package:fe/constant/toast.dart';
 import 'package:fe/model/category.model.dart';
+import 'package:fe/provider/base.url.dart';
 import 'package:fe/provider/category.provider.dart';
 import 'package:flutter/material.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
@@ -109,6 +110,38 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
                   ],
                 ),
                 const SizedBox(height: 25),
+                const Text(
+                  "File đính kèm",
+                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
+                ),
+                Container(
+                  height: 50,
+                  decoration: BoxDecoration(
+                    border: Border.all(width: 2, color: Colors.grey),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  padding: const EdgeInsets.only(left: 10, right: 10),
+                  child: Center(
+                      child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(categoryModel.attachment ?? ""),
+                      InkWell(
+                          onTap: () async {
+                            var fileName = await handleUploadFileAll();
+                            setState(() {
+                              categoryModel.attachment = fileName;
+                            });
+                          },
+                          child: const Icon(
+                            Icons.upload,
+                            color: Colors.blue,
+                            size: 30,
+                          ))
+                    ],
+                  )),
+                ),
+                const SizedBox(height: 25),
                 TextFielWidget(
                   title: 'Lý do ',
                   controller: lyDo,
@@ -153,7 +186,7 @@ class _AddCategoryPageState extends State<AddCategoryPage> {
                               showToast(
                                 context: context,
                                 msg: "Thêm mới thành công",
-                                color: Color.fromARGB(255, 75, 254, 30),
+                                color: const Color.fromARGB(255, 75, 254, 30),
                                 icon: const Icon(Icons.done),
                               );
                               Navigator.pop(context, categoryModel);

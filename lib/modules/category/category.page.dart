@@ -1,6 +1,4 @@
 // ignore_for_file: prefer_const_constructors
-
-import 'package:fe/constant/toast.dart';
 import 'package:fe/model/category.model.dart';
 import 'package:fe/modules/academic_score/academic.score.page.dart';
 import 'package:fe/modules/category/add.category.page.dart';
@@ -9,6 +7,8 @@ import 'package:fe/modules/discipline_grade/discipline.grade.page.dart';
 import 'package:fe/modules/timetable/timetable.page.dart';
 import 'package:fe/provider/category.provider.dart';
 import 'package:flutter/material.dart';
+
+import '../chatbot/chat.bot.page.dart';
 
 class CategoryPage extends StatefulWidget {
   const CategoryPage({super.key});
@@ -288,11 +288,12 @@ class _CategoryPageState extends State<CategoryPage> {
                           children: [
                             InkWell(
                               onTap: () {
-                                showToast(
-                                  context: context,
-                                  msg: "Phát triển sau",
-                                  color: Color.fromARGB(255, 221, 221, 221),
-                                  icon: const Icon(Icons.info),
+                                Navigator.push<void>(
+                                  context,
+                                  MaterialPageRoute<void>(
+                                    builder: (BuildContext context) =>
+                                        const ChatBotPage(),
+                                  ),
                                 );
                               },
                               child: Column(

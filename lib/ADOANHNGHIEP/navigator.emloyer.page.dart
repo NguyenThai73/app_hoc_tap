@@ -1,21 +1,20 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:awesome_bottom_bar/awesome_bottom_bar.dart';
+import 'package:fe/ADOANHNGHIEP/course/course.employer.page.dart';
 import 'package:fe/constant/shared.preferences.dart';
 import 'package:fe/constant/will.pop.scope.dart';
 import 'package:fe/modules/profile/profile.page.dart';
 import 'package:flutter/material.dart';
 
-import 'employer/employer.page.dart';
-
-class NavigatorAdminPage extends StatefulWidget {
-  const NavigatorAdminPage({super.key});
+class NavigatorEmployerPage extends StatefulWidget {
+  const NavigatorEmployerPage({super.key});
 
   @override
-  State<NavigatorAdminPage> createState() => _NavigatorAdminPageState();
+  State<NavigatorEmployerPage> createState() => _NavigatorEmployerPageState();
 }
 
-class _NavigatorAdminPageState extends State<NavigatorAdminPage> {
+class _NavigatorEmployerPageState extends State<NavigatorEmployerPage> {
   int idSv = 0;
   getData() async {
     var idSV = await MySP.getIdSV();
@@ -36,11 +35,7 @@ class _NavigatorAdminPageState extends State<NavigatorAdminPage> {
     return WillPS(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        body: (visit == 4)
-            ? ProfilePage()
-            : (visit == 3)
-                ? EmployerPage()
-                : Container(),
+        body: (visit == 1) ? ProfilePage() : CourseEmployerPage(),
         bottomNavigationBar: SizedBox(
           height: 90,
           child: BottomBarFloating(
@@ -63,20 +58,8 @@ class _NavigatorAdminPageState extends State<NavigatorAdminPage> {
 
 const List<TabItem> items = [
   TabItem(
-    icon: Icons.mail,
-    title: 'Hòm thư',
-  ),
-  TabItem(
     icon: Icons.design_services,
     title: 'Khoá học',
-  ),
-  TabItem(
-    icon: Icons.school,
-    title: 'Sinh viên',
-  ),
-  TabItem(
-    icon: Icons.apartment,
-    title: 'Doanh nghiệp',
   ),
   TabItem(
     icon: Icons.person,

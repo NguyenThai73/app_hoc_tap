@@ -5,11 +5,13 @@ class TextFielComponent extends StatefulWidget {
   final String? hintText;
   final IconData? iconData;
   final bool? isPassword;
+  final bool? enabled;
   const TextFielComponent(
       {super.key,
       this.controller,
       this.hintText,
       this.iconData,
+      this.enabled,
       this.isPassword});
 
   @override
@@ -44,6 +46,7 @@ class _TextFielComponentState extends State<TextFielComponent> {
             child: TextFormField(
               controller: widget.controller,
               obscureText: widget.isPassword == true ? !_isObscure : false,
+              enabled: widget.enabled,
               decoration: InputDecoration(
                 border: InputBorder.none,
                 hintText: widget.hintText,

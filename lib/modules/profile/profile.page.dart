@@ -1,13 +1,20 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, use_build_context_synchronously
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fe/constant/avatar.dart';
 import 'package:fe/constant/shared.preferences.dart';
 import 'package:fe/model/user.model.dart';
 import 'package:fe/modules/profile/change.password.dart';
+import 'package:fe/modules/profile/infor.app.dart';
+import 'package:fe/modules/profile/policy.page.dart';
 import 'package:fe/modules/splash/splash.page.dart';
+import 'package:fe/provider/base.url.dart';
 import 'package:fe/provider/nguoi.dung.provider.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import 'edit.profile.employer.dart';
+import 'edit.profile.student.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -85,7 +92,19 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: Column(
                   children: [
                     SizedBox(height: 10),
-                    Avatar(height: 100),
+                    SizedBox(
+                      width: 100,
+                      height: 100,
+                      child: ClipOval(
+                        child: (user.avatar != null && user.avatar != "")
+                            ? CachedNetworkImage(
+                                imageUrl: "$baseUrl/api/files/${user.avatar!}",
+                                fit: BoxFit.cover,
+                              )
+                            : Image.asset("assets/no_avatar.jpeg",
+                                fit: BoxFit.cover),
+                      ),
+                    ),
                     SizedBox(height: 10),
                     Text(
                       user.fullName ?? "",
@@ -113,32 +132,68 @@ class _ProfilePageState extends State<ProfilePage> {
                         ],
                       )),
                     ),
-                    Container(
-                      height: 50,
-                      width: MediaQuery.of(context).size.width,
-                      padding: EdgeInsets.only(
-                          left: 20, right: 20, top: 10, bottom: 10),
-                      child: InkWell(
-                        onTap: () {},
-                        child: Center(
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Icon(Icons.manage_accounts, size: 40),
-                              SizedBox(width: 10),
-                              Container(
-                                padding: EdgeInsets.only(top: 7),
-                                child: Text(
-                                  "Chỉnh Sửa Thông Tin",
-                                  style: TextStyle(
-                                      fontSize: 18, color: Color(0xFF907E7E)),
+                    if (user.role != 0)
+                      Container(
+                        height: 50,
+                        width: MediaQuery.of(context).size.width,
+                        padding: EdgeInsets.only(
+                            left: 20, right: 20, top: 10, bottom: 10),
+                        child: InkWell(
+                          onTap: () async {
+                            if (user.role == 2) {
+                              //
+                              var data = await Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      EditProfileStudentPage(
+                                    sinhvien: user,
+                                  ),
                                 ),
-                              )
-                            ],
+                              );
+                              if (data != null && data is UserModel) {
+                                setState(() {
+                                  user = data;
+                                });
+                              }
+                            }
+                            if (user.role == 1) {
+                              //
+                              var data = await Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      EditProfileEmployerPage(
+                                    employer: user,
+                                  ),
+                                ),
+                              );
+                              if (data != null && data is UserModel) {
+                                setState(() {
+                                  user = data;
+                                });
+                              }
+                            }
+                          },
+                          child: Center(
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Icon(Icons.manage_accounts, size: 40),
+                                SizedBox(width: 10),
+                                Container(
+                                  padding: EdgeInsets.only(top: 7),
+                                  child: Text(
+                                    "Chỉnh Sửa Thông Tin",
+                                    style: TextStyle(
+                                        fontSize: 18, color: Color(0xFF907E7E)),
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
                     Container(
                       height: 50,
                       width: MediaQuery.of(context).size.width,
@@ -179,7 +234,15 @@ class _ProfilePageState extends State<ProfilePage> {
                       padding: EdgeInsets.only(
                           left: 20, right: 20, top: 10, bottom: 10),
                       child: InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push<void>(
+                            context,
+                            MaterialPageRoute<void>(
+                              builder: (BuildContext context) =>
+                                  const InforApp(),
+                            ),
+                          );
+                        },
                         child: Center(
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -220,7 +283,15 @@ class _ProfilePageState extends State<ProfilePage> {
                       padding: EdgeInsets.only(
                           left: 20, right: 20, top: 10, bottom: 10),
                       child: InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push<void>(
+                            context,
+                            MaterialPageRoute<void>(
+                              builder: (BuildContext context) =>
+                                  const PolicyPage(),
+                            ),
+                          );
+                        },
                         child: Center(
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
